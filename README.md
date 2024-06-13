@@ -1,7 +1,38 @@
-# Simple express demo
+# Passos para utilização 
 
-> Express: fast, unopinionated, minimalist web framework for Node.js
+## puxar o container do DockerHub
 
-This project shows a simple express server serving a single HTML page and using `express.static` to serve static files.
+docker pull alerrando/atv4:latest
 
-Check out the [express documentation](https://expressjs.com/) for more information.
+## criar o network e o banco
+
+docker network create banco
+
+docker run -d -p 3306:3306 --name mysql --net banco -e MYSQL_ROOT_PASSWORD=user -e MYSQL_USER=user -e MYSQL_PASSWORD=14725836 -e MYSQL_DATABASE=trabalho_4 mysql/mysql-server:latest
+
+## Para criar o banco de dados, rode os scripts a baixo:
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+## Para inserir dados na tabela
+
+INSERT INTO `users` (`id`, `name`, `email`) 
+VALUES (1, 'John Doe', 'john@gmail.com'), (2, 'Jane Doe', 'jane@gmail.com');
+
+# Para executar a aplicação, rode o comando abaixo:
+
+docker run -p 3000:3000 --name atv4 --net banco -d alerrando/atv4:latest
+
+#Acesse http://localhost:3000/consulta-dados
+
+Repositório da aplicação: <br/>
+https://github.com/Alerrando/Atividade-4
+
+DockerHub da Aplicação: <br/>
+https://hub.docker.com/repository/docker/alerrando/atv4/general
+
